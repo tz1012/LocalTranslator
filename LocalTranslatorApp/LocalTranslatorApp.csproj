@@ -5,9 +5,9 @@
     <TargetFramework>net9.0-windows</TargetFramework>
     <AssemblyName>LocalTranslator</AssemblyName>
     <RootNamespace>LocalTranslatorApp</RootNamespace>
-    <Version>0.6.0</Version>
-    <FileVersion>0.6.0.0</FileVersion>
-    <AssemblyVersion>0.6.0.0</AssemblyVersion>
+    <Version>0.6.1</Version>
+    <FileVersion>0.6.1.0</FileVersion>
+    <AssemblyVersion>0.6.1.0</AssemblyVersion>
     <Product>Local Translator</Product>
     <Description>Local LLM translator for Windows using LM Studio.</Description>
     <ApplicationIcon>Assets\AppIcon.ico</ApplicationIcon>

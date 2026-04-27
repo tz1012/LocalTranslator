@@ -22,6 +22,7 @@ public partial class MainWindow : Window
     private readonly DispatcherTimer _clipboardTimer = new();
     private readonly DispatcherTimer _updateTimer = new();
     private readonly List<string> _clipboardHistory = new();
+    private readonly Icon _trayIcon;
     private readonly Forms.NotifyIcon _notifyIcon;
     private FloatingTranslationWindow? _floatingWindow;
     private NativeInput.FocusTarget _lastSourceTarget;
@@ -49,6 +50,7 @@ public partial class MainWindow : Window
             Dispatcher.BeginInvoke(InsertResultAsync);
         _keyboardShortcutService.Start(_settings);
 
+        _trayIcon = LoadNotifyIcon();
         _notifyIcon = CreateNotifyIcon();
 
         SourceTextBox.TextChanged += SourceTextBox_TextChanged;
@@ -77,7 +79,7 @@ public partial class MainWindow : Window
         {
             e.Cancel = true;
             Hide();
-            _notifyIcon.ShowBalloonTip(1400, "Local Translator", "諛깃렇?쇱슫?쒖뿉??怨꾩냽 ?ㅽ뻾 以묒엯?덈떎.", Forms.ToolTipIcon.Info);
+            _notifyIcon.ShowBalloonTip(1400, "Local Translator", "백그라운드에서 계속 실행 중입니다.", Forms.ToolTipIcon.Info);
             return;
         }
 
@@ -89,6 +91,7 @@ public partial class MainWindow : Window
         _keyboardShortcutService.Dispose();
         _floatingWindow?.Close();
         _notifyIcon.Dispose();
+        _trayIcon.Dispose();
         base.OnClosed(e);
     }
 
@@ -111,7 +114,7 @@ public partial class MainWindow : Window
 
         var icon = new Forms.NotifyIcon
         {
-            Icon = SystemIcons.Application,
+            Icon = _trayIcon,
             Text = "Local Translator",
             Visible = true,
             ContextMenuStrip = menu
@@ -126,6 +129,25 @@ public partial class MainWindow : Window
                 }
             });
         return icon;
+    }
+
+    private static Icon LoadNotifyIcon()
+    {
+        try
+        {
+            var resource = System.Windows.Application.GetResourceStream(new Uri("pack://application:,,,/Assets/AppIcon.ico"));
+            if (resource?.Stream is not null)
+            {
+                using var icon = new Icon(resource.Stream);
+                return (Icon)icon.Clone();
+            }
+        }
+        catch
+        {
+            // The tray icon should never prevent the app from starting.
+        }
+
+        return (Icon)SystemIcons.Application.Clone();
     }
 
     private void ShowMainWindow()
