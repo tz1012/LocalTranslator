@@ -1,0 +1,214 @@
+<Window x:Class="LocalTranslatorApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Local Translator"
+        Width="1040"
+        Height="700"
+        MinWidth="900"
+        MinHeight="560"
+        Icon="Assets/AppIcon.ico"
+        Background="#F5F7FA"
+        FontFamily="Segoe UI"
+        WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <SolidColorBrush x:Key="PrimaryBrush" Color="#1F7AE0" />
+        <SolidColorBrush x:Key="PrimarySoftBrush" Color="#E8F2FF" />
+        <SolidColorBrush x:Key="TextBrush" Color="#172033" />
+        <SolidColorBrush x:Key="MutedBrush" Color="#627083" />
+        <SolidColorBrush x:Key="LineBrush" Color="#D7DEE8" />
+        <SolidColorBrush x:Key="SurfaceBrush" Color="#FFFFFF" />
+
+        <Style TargetType="Button">
+            <Setter Property="Height" Value="40" />
+            <Setter Property="MinWidth" Value="72" />
+            <Setter Property="Padding" Value="16,0" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="{StaticResource LineBrush}" />
+            <Setter Property="Background" Value="{StaticResource SurfaceBrush}" />
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PrimaryButton" TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Background" Value="{StaticResource PrimaryBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}" />
+            <Setter Property="Foreground" Value="#FFFFFF" />
+        </Style>
+
+        <Style TargetType="ComboBox">
+            <Setter Property="Height" Value="36" />
+            <Setter Property="MinWidth" Value="140" />
+            <Setter Property="Padding" Value="10,0" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48" />
+            <RowDefinition Height="54" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="46" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="#FFFFFF" BorderBrush="#E7ECF2" BorderThickness="0,0,0,1">
+            <Grid Margin="16,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="☰" FontSize="20" Margin="0,0,16,0" VerticalAlignment="Center" Foreground="{StaticResource TextBrush}" />
+                    <Button Content="텍스트"
+                            MinWidth="76"
+                            Background="{StaticResource PrimarySoftBrush}"
+                            BorderBrush="{StaticResource PrimaryBrush}"
+                            Foreground="{StaticResource PrimaryBrush}" />
+                    <Button Content="설정" MinWidth="76" Margin="10,0,0,0" Click="OpenSettings_Click" />
+                    <Button Content="기록" MinWidth="76" Margin="10,0,0,0" IsEnabled="False" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border x:Name="ConnectionBadge"
+                            MinWidth="130"
+                            Height="30"
+                            Padding="12,0"
+                            CornerRadius="15"
+                            Background="#FFF7E6">
+                        <TextBlock x:Name="ConnectionText"
+                                   Text="LM Studio 확인 중"
+                                   FontSize="12"
+                                   FontWeight="SemiBold"
+                                   VerticalAlignment="Center"
+                                   Foreground="#835B14" />
+                    </Border>
+                    <Button Content="연결 테스트" MinWidth="108" Margin="10,0,0,0" Click="CheckConnection_Click" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="1" Background="#FFFFFF" BorderBrush="#E7ECF2" BorderThickness="0,0,0,1">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button x:Name="SourceLanguageButton"
+                        MinWidth="190"
+                        HorizontalContentAlignment="Left"
+                        Click="SourceLanguage_Click" />
+                <Button Content="⇄" Width="40" Margin="14,0" Click="SwapLanguages_Click" />
+                <Button x:Name="TargetLanguageButton"
+                        MinWidth="190"
+                        HorizontalContentAlignment="Left"
+                        Click="TargetLanguage_Click" />
+            </StackPanel>
+        </Border>
+
+        <Grid Grid.Row="2" Background="#FFFFFF">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="1" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Margin="26">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="44" />
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="0,0,0,12">
+                    <TextBlock Text="원문"
+                               HorizontalAlignment="Left"
+                               VerticalAlignment="Center"
+                               FontSize="13"
+                               FontWeight="SemiBold"
+                               Foreground="{StaticResource MutedBrush}" />
+                    <Button Content="지우기"
+                            HorizontalAlignment="Right"
+                            MinWidth="86"
+                            Height="36"
+                            Padding="14,0"
+                            Click="ClearSource_Click" />
+                </Grid>
+
+                <TextBox x:Name="SourceTextBox"
+                         Grid.Row="1"
+                         AcceptsReturn="True"
+                         TextWrapping="Wrap"
+                         VerticalScrollBarVisibility="Auto"
+                         BorderThickness="0"
+                         FontSize="23"
+                         Foreground="{StaticResource TextBrush}"
+                         Text="Oh, wise and tireless champions of SmartCat, I call upon thee once more&#x0a;&#x0a;A new translation task awaits your mastery." />
+
+                <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Content="클립보드 열기" MinWidth="126" Click="OpenClipboard_Click" />
+                    <Button Content="번역"
+                            Style="{StaticResource PrimaryButton}"
+                            Margin="10,0,0,0"
+                            MinWidth="118"
+                            Click="Translate_Click" />
+                </StackPanel>
+            </Grid>
+
+            <Border Grid.Column="1" Background="#D7DEE8" />
+
+            <Grid Grid.Column="2" Margin="26">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="44" />
+                </Grid.RowDefinitions>
+
+                <DockPanel Grid.Row="0" Margin="0,0,0,12">
+                    <TextBlock Text="번역 결과" FontSize="13" FontWeight="SemiBold" Foreground="{StaticResource MutedBrush}" />
+                    <TextBlock x:Name="StatusText"
+                               DockPanel.Dock="Right"
+                               Text="대기 중"
+                               FontSize="13"
+                               Foreground="{StaticResource MutedBrush}" />
+                </DockPanel>
+
+                <TextBox x:Name="ResultTextBox"
+                         Grid.Row="1"
+                         AcceptsReturn="True"
+                         TextWrapping="Wrap"
+                         VerticalScrollBarVisibility="Auto"
+                         BorderThickness="0"
+                         FontSize="23"
+                         Foreground="{StaticResource TextBrush}" />
+
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Button Content="복사" MinWidth="96" Click="CopyResult_Click" />
+                    <Button Content="번역문 삽입  Ctrl+Enter"
+                            Style="{StaticResource PrimaryButton}"
+                            Margin="10,0,0,0"
+                            MinWidth="190"
+                            Click="InsertResult_Click" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <Border Grid.Row="3" Background="#F8FAFC" BorderBrush="#E7ECF2" BorderThickness="0,1,0,0">
+            <Grid Margin="26,0">
+                <TextBlock VerticalAlignment="Center"
+                           Foreground="{StaticResource MutedBrush}"
+                           FontSize="12"
+                           Text="원문을 입력하면 자동 번역됩니다. 단축키와 LM Studio 설정은 설정 창에서 변경할 수 있습니다." />
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
