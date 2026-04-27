@@ -1,0 +1,11 @@
+bin/
+obj/
+build-check/
+dist/
+LocalTranslatorApp/
+installer/
+RELEASE_NOTES_*.md
+pencil-new.pen
+*.user
+*.suo
+.vs/
