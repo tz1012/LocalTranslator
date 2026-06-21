@@ -20,7 +20,7 @@ https://github.com/tz1012/LocalTranslator/releases/latest
 
 Recommended file:
 
-`LocalTranslator-v0.6.11-Setup.exe`
+`LocalTranslator-v0.6.12-Setup.exe`
 
 A portable zip is also available in the same release.
 
@@ -38,7 +38,7 @@ http://localhost:1234/v1
 ## Installation
 
 1. Open the latest release page.
-2. Download `LocalTranslator-v0.6.11-Setup.exe`.
+2. Download `LocalTranslator-v0.6.12-Setup.exe`.
 3. Run the installer.
 4. Start `Local Translator` from the Start menu or desktop shortcut.
 
